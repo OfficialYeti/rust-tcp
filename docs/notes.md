@@ -31,23 +31,52 @@ Sucks that this is for linux only. Implementation for windows exists but I would
 
 
 Lets start::
-
+### setcap - give some priviliges
+```
 sudo setcap cap_net_admin=eip ./trust/target/release/trust
+```
+Option setcap sets the capabilities of each specified filename to the capabilities specified.
+CAP_NET_ADMIN - Perform various network-related operations:
+* interface configuration;
+* administration of IP firewall, masquerading, and
+accounting;
+* modify routing tables;
+* bind to any address for transparent proxying;
+* set type-of-service (TOS);
+* clear driver statistics;
+* set promiscuous mode;
+* enabling multicasting;
+* use setsockopt(2) to set the following socket options: SO_DEBUG, SO_MARK, SO_PRIORITY (for a priority outside the range 0 to 6), SO_RCVBUFFORCE, and SO_SNDBUFFORCE.
 
+Legal flags are: 'e', 'i', and 'p'. These flags are case-sensitive and specify the Effective, Inheritable and Permitted sets respectively.
+
+### ip addr add - Assign a IP Address to Specific Interface
+ip - show / manipulate routing, network devices, interfaces and tunnels
+- ip addr add {network} dev {interface}
+```
 sudo ip addr add 192.168.0.1/24 dev tun0
-
+```
+- ip addr : Shows addresses assigned to all network interfaces.
+```
 ip addr
-
+```
+- ip link set x up : Enable Network Interface
+```
 sudo ip link set up dev tun0
--> thanks to this tcp recived packet
+```
 
+### Shell automation
 automate it in script -> run.sh
-        -- chmod +x run.sh to give premission (execute i suppose)
+- chmod +x run.sh to give premission (execute i suppose)
 
 pgrep -af target
 kill
 
+trap - execute any command after reciving signal
+trap "{commad}" {signal}
 trap "kill $pid" INT TERM
+
+
 
 https://en.wikipedia.org/wiki/EtherType
 -> 0x86dd is IPv6
